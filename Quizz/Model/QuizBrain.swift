@@ -54,6 +54,7 @@ struct QuizBrain {
             return """
             It's all!
             \(rightAnswer)/\(quizQuestions.count)
+            Press any button and play again!
             """ }
     }
 }

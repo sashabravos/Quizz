@@ -16,12 +16,13 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSomeView()
+        addBackground(currentBackground: "backgroundImage")
+        addStackView()
         addToStackView()
     }
 
-    private func addSomeView() {
-        let backgroundImage = UIImageView.init(image: UIImage(named: "backgroundImage") ?? UIImage())
+    private func addBackground(currentBackground: String) {
+        let backgroundImage = UIImageView.init(image: UIImage(named: currentBackground) ?? UIImage())
         backgroundImage.contentMode = .scaleAspectFill
         backgroundImage.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(backgroundImage)
@@ -31,6 +32,8 @@ class ViewController: UIViewController {
             backgroundImage.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
             backgroundImage.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor)
         ])
+    }
+    private func addStackView() {
         stackView.axis = NSLayoutConstraint.Axis.vertical
         stackView.distribution = UIStackView.Distribution.fillProportionally
         stackView.alignment = UIStackView.Alignment.fill
@@ -64,19 +67,6 @@ class ViewController: UIViewController {
             progressView.heightAnchor.constraint(equalToConstant: 5)
         ])
     }
-    /// for version 2.0
-//    private func resultBackground() {
-//        let backgroundImage = UIImageView.init(image: UIImage(named: "resultPage") ?? UIImage())
-//        backgroundImage.contentMode = .scaleAspectFill
-//        backgroundImage.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(backgroundImage)
-//        NSLayoutConstraint.activate([
-//            backgroundImage.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-//            backgroundImage.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-//            backgroundImage.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
-//            backgroundImage.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor)
-//        ])
-//    }
     private func createButton(title: String) {
         let button = UIButton()
         button.backgroundColor = UIColor.gray.withAlphaComponent(0.5)
@@ -102,14 +92,17 @@ class ViewController: UIViewController {
                 currentButton.backgroundColor = UIColor.red.withAlphaComponent(0.5)
                 quizBrain.playSound(soundName: "incorrectAswer")
             }
-            UIView.animate(withDuration: 0.2,
-                           delay: 0.2,
-                           animations: { currentButton.backgroundColor = UIColor.gray.withAlphaComponent(0.5)})
-            questionLabel.text = quizBrain.updateLabelText()
-            progressView.progress = quizBrain.updateProgress()
+        } else {
+            quizBrain.progress = 0.0
+            quizBrain.currentQuestion = 0
+            quizBrain.rightAnswer = 0
+            quizBrain.playSound(soundName: "correctAnswer")
         }
-        /// for version 2.0
-//        } else { resultBackground() }
+        UIView.animate(withDuration: 0.2,
+                       delay: 0.2,
+                       animations: { currentButton.backgroundColor = UIColor.gray.withAlphaComponent(0.5)})
+        questionLabel.text = quizBrain.updateLabelText()
+        progressView.progress = quizBrain.updateProgress()
     }
     private enum Constants {
         static let mainStackViewSpacing: CGFloat = 10.0

@@ -48,9 +48,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03EF4A5429ACF3CF0052B569 /* Sounds and Images */ = {
+			isa = PBXGroup;
+			children = (
+				03F3E4C029961A7B00632213 /* Assets.xcassets */,
+				03F3E4D1299D080B00632213 /* incorrectAswer.mp3 */,
+				03F3E4D0299D080B00632213 /* correctAnswer.mp3 */,
+			);
+			path = "Sounds and Images";
+			sourceTree = "<group>";
+		};
 		03F3E4AB29961A7A00632213 = {
 			isa = PBXGroup;
 			children = (
+				03F3E4B729961A7A00632213 /* AppDelegate.swift */,
+				03F3E4B929961A7A00632213 /* SceneDelegate.swift */,
 				03F3E4B629961A7A00632213 /* Quizz */,
 				03F3E4B529961A7A00632213 /* Products */,
 				68C7AB78008986D83EE6ABB4 /* Pods */,
@@ -69,30 +81,28 @@
 		03F3E4B629961A7A00632213 /* Quizz */ = {
 			isa = PBXGroup;
 			children = (
-				03F3E4D4299D0AB300632213 /* Model */,
+				03F3E4D4299D0AB300632213 /* AppLogic */,
 				03F3E4D5299D0AEF00632213 /* View */,
 				03F3E4D7299D0B0B00632213 /* Controller */,
+				03EF4A5429ACF3CF0052B569 /* Sounds and Images */,
 				03F3E4C529961A7B00632213 /* Info.plist */,
 			);
 			path = Quizz;
 			sourceTree = "<group>";
 		};
-		03F3E4D4299D0AB300632213 /* Model */ = {
+		03F3E4D4299D0AB300632213 /* AppLogic */ = {
 			isa = PBXGroup;
 			children = (
 				03F3E4CC299AC11000632213 /* Question.swift */,
 				03F3E4D8299D0B7400632213 /* QuizBrain.swift */,
 			);
-			path = Model;
+			path = AppLogic;
 			sourceTree = "<group>";
 		};
 		03F3E4D5299D0AEF00632213 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				03F3E4BD29961A7A00632213 /* Main.storyboard */,
-				03F3E4C029961A7B00632213 /* Assets.xcassets */,
-				03F3E4D0299D080B00632213 /* correctAnswer.mp3 */,
-				03F3E4D1299D080B00632213 /* incorrectAswer.mp3 */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -100,8 +110,6 @@
 		03F3E4D7299D0B0B00632213 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				03F3E4B729961A7A00632213 /* AppDelegate.swift */,
-				03F3E4B929961A7A00632213 /* SceneDelegate.swift */,
 				03F3E4BB29961A7A00632213 /* ViewController.swift */,
 			);
 			path = Controller;
@@ -196,6 +204,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		03F3E4CB29961E0700632213 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

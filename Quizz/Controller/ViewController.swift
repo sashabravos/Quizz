@@ -8,46 +8,18 @@
 import AVFoundation
 import UIKit
 
-class ViewController: UIViewController {
-    private lazy var stackView = UIStackView()
-    private lazy var questionLabel = UILabel()
-    private lazy var progressView = UIProgressView()
-    var quizBrain = QuizBrain()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        addBackground(currentBackground: "backgroundImage")
-        addStackView()
-        addToStackView()
-    }
-
-    private func addBackground(currentBackground: String) {
-        let backgroundImage = UIImageView.init(image: UIImage(named: currentBackground) ?? UIImage())
-        backgroundImage.contentMode = .scaleAspectFill
-        backgroundImage.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(backgroundImage)
-        NSLayoutConstraint.activate([
-            backgroundImage.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            backgroundImage.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            backgroundImage.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
-            backgroundImage.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor)
-        ])
-    }
-    private func addStackView() {
+final class ViewController: UIViewController {
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
         stackView.axis = NSLayoutConstraint.Axis.vertical
         stackView.distribution = UIStackView.Distribution.fillProportionally
         stackView.alignment = UIStackView.Alignment.fill
         stackView.spacing = Constants.mainStackViewSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stackView)
-        NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
-            stackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor)
-        ])
-    }
-    private func addToStackView() {
+        return stackView
+    }()
+    private lazy var questionLabel: UILabel = {
+        let questionLabel = UILabel()
         questionLabel.text = quizBrain.quizQuestions[quizBrain.currentQuestion].text
         questionLabel.numberOfLines = 0
         questionLabel.textColor = .black
@@ -55,17 +27,30 @@ class ViewController: UIViewController {
         questionLabel.textAlignment = .center
         questionLabel.highlightedTextColor = .systemGray
         questionLabel.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addArrangedSubview(questionLabel)
-        createButton(title: "True")
-        createButton(title: "False")
+        return questionLabel
+    }()
+    private lazy var progressView: UIProgressView = {
+        let progressView = UIProgressView()
         progressView.progressViewStyle = .bar
         progressView.setProgress(0.0, animated: true)
         progressView.progressTintColor = .systemRed
         progressView.trackTintColor = .systemGray
-        stackView.addArrangedSubview(progressView)
-        NSLayoutConstraint.activate([
-            progressView.heightAnchor.constraint(equalToConstant: 5)
-        ])
+        return progressView
+    }()
+    private lazy var backgroundImage: UIImageView = {
+        let backgroundImage = UIImageView.init(image: UIImage(named: "backgroundImage") ?? UIImage())
+        backgroundImage.contentMode = .scaleAspectFill
+        backgroundImage.translatesAutoresizingMaskIntoConstraints = false
+        return backgroundImage
+    }()
+    var quizBrain = QuizBrain()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubview(backgroundImage)
+        view.addSubview(stackView)
+        addToStackView()
+        layoutConstraint()
     }
     private func createButton(title: String) {
         let button = UIButton()
@@ -81,7 +66,26 @@ class ViewController: UIViewController {
         button.heightAnchor.constraint(equalToConstant: Constants.buttonHeight).isActive = true
         button.addTarget(self, action: #selector(buttonPressed(currentButton:)), for: .touchUpInside)
     }
+    private func addToStackView() {
+        stackView.addArrangedSubview(questionLabel)
+        createButton(title: "True")
+        createButton(title: "False")
+        stackView.addArrangedSubview(progressView)
+    }
+    private func layoutConstraint() {
+        NSLayoutConstraint.activate([
+            backgroundImage.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            backgroundImage.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
+            backgroundImage.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
 
+            stackView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
+            stackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            progressView.heightAnchor.constraint(equalToConstant: 5)
+        ])
+    }
     @objc func buttonPressed(currentButton: UIButton) {
         let userAswer = currentButton.currentTitle!
         if quizBrain.currentQuestion < quizBrain.quizQuestions.count {
